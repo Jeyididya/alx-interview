@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-Returns list representing the Pascal's triangle for a given number n
+Returns list representing the Pascal's triangle for n
 '''
 
 
