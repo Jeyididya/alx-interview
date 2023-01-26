@@ -8,6 +8,7 @@ def pascal_triangle(n):
     '''returns empty list if n <= 0'''
     if n <= 0:
         return []
+
     triangle = []
     row = []
     prev_row = []
