@@ -5,7 +5,12 @@
 
 # def validUTF8(data):
 def validUTF8(data):
-    # a list to store binary representation of the numbers
+    """
+    Rtype:
+        bool
+    Args:
+        data - list
+    """
     sequence = []
     # get binary representation of all the numbers
     for d in data:
@@ -33,4 +38,3 @@ def validUTF8(data):
         else:
             return False
     return True
-
