@@ -3,24 +3,33 @@
 """
 
 
-def validUtf8(self, data):
-    """
-    :type data: List[int]
-    :rtype: bool
-    """
-    count = 0
-    for c in data:
-        if count == 0:
-            if (c >> 5) == 0b110:
-                count = 1
-            elif (c >> 4) == 0b1110:
-                count = 2
-            elif (c >> 3) == 0b11110:
-                count = 3
-            elif (c >> 7):
-                return False
+# def validUTF8(data):
+def validUTF8(data):
+    # a list to store binary representation of the numbers
+    sequence = []
+    # get binary representation of all the numbers
+    for d in data:
+        sequence.append("{0:08b}".format(d))
+    i = 0
+    n = len(sequence)
+    while i < n:
+        if sequence[i][0] == '0':  # 1-byte check
+            i += 1
+            continue
+        if sequence[i][:3] == '110' and n - i >= 1:  # 2-byte check
+            if sequence[i+1][:2] == '10':
+                i += 2
+                continue
+        if sequence[i][:4] == '1110' and n - i >= 2:  # 3-byte check
+            if sequence[i+1][:2] == '10' and sequence[i+2][:2] == '10':
+                print(sequence[i+1][:2] == '10', sequence[i+2][:2] == '10')
+                i += 3
+                continue
+        if sequence[i][:5] == '11110' and n - i >= 3:  # 4-byte check
+            if (sequence[i+1][:2] == '10' and sequence[i+2][:2] == '10' and
+                    sequence[i+3][:2] == '10'):
+                i += 4
+                continue
         else:
-            if (c >> 6) != 0b10:
-                return False
-            count -= 1
-    return count == 0
+            return False
+    return True
