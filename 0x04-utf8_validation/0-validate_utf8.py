@@ -11,12 +11,14 @@ def validUTF8(data):
     Args:
         data - list
     """
+
     sequence = []
-    # get binary representation of all the numbers
+
     for d in data:
         sequence.append("{0:08b}".format(d))
     i = 0
     n = len(sequence)
+
     while i < n:
         if sequence[i][0] == '0':  # 1-byte check
             i += 1
