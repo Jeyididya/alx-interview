@@ -27,7 +27,6 @@ def validUTF8(data):
                 continue
         if sequence[i][:4] == '1110' and n - i >= 2:  # 3-byte check
             if sequence[i+1][:2] == '10' and sequence[i+2][:2] == '10':
-                print(sequence[i+1][:2] == '10', sequence[i+2][:2] == '10')
                 i += 3
                 continue
         if sequence[i][:5] == '11110' and n - i >= 3:  # 4-byte check
