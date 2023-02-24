@@ -20,14 +20,16 @@ def validUTF8(data):
     n = len(sequence)
 
     while i < n:
+        # print(",,,",n-i)
+        # print(sequence[i][:4])
         if sequence[i][0] == '0':  # 1-byte check
             i += 1
             continue
-        if sequence[i][:3] == '110' and n - i >= 1:  # 2-byte check
+        if sequence[i][:3] == '110' and n - i > 1:  # 2-byte check
             if sequence[i+1][:2] == '10':
                 i += 2
                 continue
-        if sequence[i][:4] == '1110' and n - i >= 2:  # 3-byte check
+        if sequence[i][:4] == '1110' and n - i > 2:  # 3-byte check
             if sequence[i+1][:2] == '10' and sequence[i+2][:2] == '10':
                 i += 3
                 continue
