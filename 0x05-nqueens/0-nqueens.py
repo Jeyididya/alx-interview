@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-'''N Queens Problem'''
+'''N Queens Problem alx'''
 
 import sys
 
