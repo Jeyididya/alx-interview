@@ -1,91 +1,72 @@
 #!/usr/bin/python3
-'''N Queens Problem alx'''
-
+"""
+Module 0-nqueens
+A program that solves the N queens problem
+"""
 import sys
 
+if len(sys.argv) < 2:
+    print("Usage: nqueens N")
+    sys.exit(1)
 
-if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print("Usage: nqueens N")
-        sys.exit(1)
+try:
+    num = int(sys.argv[1])
+except ValueError:
+    print("N must be a number")
+    sys.exit(1)
 
-    try:
-        n = int(sys.argv[1])
-    except ValueError:
-        print('N must be a number')
-        exit(1)
+if not (num >= 4):
+    print("N must be at least 4")
+    sys.exit(1)
 
-    if n < 4:
-        print('N must be at least 4')
-        exit(1)
 
-    solutions = []
-    placed_queens = []  # coordinates format [row, column]
-    stop = False
-    r = 0
-    c = 0
+def solveNQueens(n):
+    """Solution for n queens"""
+    col = set()  # keep track of used columns
+    pos = set()  # (r + c) keep track of used positive diagonals
+    neg = set()  # (r - c) keep track of used negative diagonals
 
-    # iterate thru row
-    while r < n:
-        goback = False
-        # iterate thru columns
-        while c < n:
-            # check is current column is safe
-            safe = True
-            for cord in placed_queens:
-                col = cord[1]
-                if(col == c or col + (r-cord[0]) == c or
-                        col - (r-cord[0]) == c):
-                    safe = False
-                    break
+    res = []  # final result
 
-            if not safe:
-                if c == n - 1:
-                    goback = True
-                    break
-                c += 1
+    board = [[] for n in range(n)]  # create empy board
+
+    def backtrack(row):
+        """function for recursion"""
+        # means we've reached the last row
+        if row == n:
+            # get copy of current solution(current board)
+            copy = board.copy()
+            res.append(copy)
+            return
+
+        # for every column
+        for c in range(n):
+            # if we find that the column or diagonals are used, then skip
+            if c in col or (row + c) in pos or (row - c) in neg:
                 continue
 
-            # place queen
-            cords = [r, c]
-            placed_queens.append(cords)
-            # if last row, append solution and reset all to last unfinished row
-            # and last safe column in that row
-            if r == n - 1:
-                solutions.append(placed_queens[:])
-                for cord in placed_queens:
-                    if cord[1] < n - 1:
-                        r = cord[0]
-                        c = cord[1]
-                for i in range(n - r):
-                    placed_queens.pop()
-                if r == n - 1 and c == n - 1:
-                    placed_queens = []
-                    stop = True
-                r -= 1
-                c += 1
-            else:
-                c = 0
-            break
-        if stop:
-            break
-        # on fail: go back to previous row
-        # and continue from last safe column + 1
-        if goback:
-            r -= 1
-            while r >= 0:
-                c = placed_queens[r][1] + 1
-                del placed_queens[r]  # delete previous queen coordinates
-                if c < n:
-                    break
-                r -= 1
-            if r < 0:
-                break
-            continue
-        r += 1
+            # register found columns and diagonals
+            col.add(c)
+            pos.add(row + c)
+            neg.add(row - c)
 
-    for idx, val in enumerate(solutions):
-        if idx == len(solutions) - 1:
-            print(val, end='')
-        else:
-            print(val)
+            board[row] = [row, c]
+
+            # move to next row
+            backtrack(row + 1)
+
+            # finally undo
+            col.remove(c)
+            pos.remove(row + c)
+            neg.remove(row - c)
+            board[row] = []
+
+    backtrack(0)
+
+    return res
+
+
+if __name__ == "__main__":
+    boards = solveNQueens(num)
+    for board in boards:
+        print(board)
