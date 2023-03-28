@@ -1,3 +1,7 @@
+#!/usr/bin/python3
+"""
+0-island_perimeter
+"""
 def island_perimeter(grid):
     perimeter = 0
     for i in range(len(grid)):
