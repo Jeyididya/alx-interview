@@ -21,7 +21,7 @@ def primes(n):
 
 def isWinner(x, nums):
     """
-    Determines winner of Prime Game
+    Determines winner of  Prime Game
     Args:
         x (int): no. of rounds of game
         nums (int): upper limit of range for each round
